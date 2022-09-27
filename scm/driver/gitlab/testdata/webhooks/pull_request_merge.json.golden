@@ -32,7 +32,11 @@
             "Avatar": "https://secure.gravatar.com/avatar/8c58a0be77ee441bb8f8595b7f1b4e87?s=80\u0026d=identicon"
         },
         "Created": "0001-01-01T00:00:00Z",
-        "Updated": "0001-01-01T00:00:00Z"
+        "Updated": "0001-01-01T00:00:00Z",
+        "Labels": [{
+            "Name": "API",
+            "Color": "#ffffff"
+        }]
     },
     "Sender": {
         "Login": "sytses",

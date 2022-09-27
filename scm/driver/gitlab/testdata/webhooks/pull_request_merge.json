@@ -105,9 +105,10 @@
     "human_time_estimate": null,
     "action": "merge"
   },
-  "labels": [
-    
-  ],
+  "labels": [{
+    "title": "API",
+    "color": "#ffffff"
+  }],
   "changes": {
     "state": {
       "previous": "locked",

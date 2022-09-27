@@ -326,6 +326,8 @@ func convertTagHook(src *pushHook) *scm.TagHook {
 }
 
 func convertPullRequestHook(src *pullRequestHook) *scm.PullRequestHook {
+	var labels []scm.Label
+
 	action := scm.ActionSync
 	switch src.ObjectAttributes.Action {
 	case "open":
@@ -344,6 +346,13 @@ func convertPullRequestHook(src *pullRequestHook) *scm.PullRequestHook {
 		src.ObjectAttributes.Source.Name,
 	)
 	namespace, name := scm.Split(src.Project.PathWithNamespace)
+	for _, l := range src.Labels {
+		label := scm.Label{
+			Name:  l.Title,
+			Color: l.Color,
+		}
+		labels = append(labels, label)
+	}
 	return &scm.PullRequestHook{
 		Action: action,
 		PullRequest: scm.PullRequest{
@@ -366,6 +375,7 @@ func convertPullRequestHook(src *pullRequestHook) *scm.PullRequestHook {
 				Email:  "", // TODO how do we get the pull request author email?
 				Avatar: src.User.AvatarURL,
 			},
+			Labels: labels,
 		},
 		Repo: scm.Repository{
 			ID:        strconv.Itoa(src.Project.ID),
@@ -858,7 +868,18 @@ type (
 			HumanTimeEstimate   interface{} `json:"human_time_estimate"`
 			Action              string      `json:"action"`
 		} `json:"object_attributes"`
-		Labels  []interface{} `json:"labels"`
+		Labels []struct {
+			ID          int         `json:"id"`
+			Title       string      `json:"title"`
+			Color       string      `json:"color"`
+			ProjectID   int         `json:"project_id"`
+			CreatedAt   string      `json:"created_at"`
+			UpdatedAt   string      `json:"updated_at"`
+			Template    bool        `json:"template"`
+			Description string      `json:"description"`
+			Type        string      `json:"type"`
+			GroupID     interface{} `json:"group_id"`
+		} `json:"labels"`
 		Changes struct {
 		} `json:"changes"`
 		Repository struct {
